@@ -14,3 +14,4 @@ Route::get('/user', function (Request $request) {
 Route::apiResource('/informasi-pemadaman', InformasiPemadamanController::class);
 Route::apiResource('/informasi-gangguan', InformasiGangguanController::class);
 Route::apiResource('/laporan-gangguan', LaporanGangguanController::class);
+Route::post('/laporan-gangguan/{id}', [LaporanGangguanController::class, 'update']);
