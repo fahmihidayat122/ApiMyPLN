@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('informasi_gangguans', function (Blueprint $table) {
             $table->id();
-            $table->date('hari_tanggal'); 
-            $table->time('waktu'); 
-            $table->string('wilayah_pemeliharaan'); 
-            $table->string('informasi_gangguan'); 
-            $table->string('dampak_gangguan'); 
+            $table->foreignId('laporan_gangguan_id') // Pastikan referensi tabel disebutkan
+                ->onDelete('cascade');
+            $table->date('hari_tanggal');
+            $table->time('waktu');
+            $table->string('wilayah_pemeliharaan');
+            $table->string('informasi_gangguan');
+            $table->string('dampak_gangguan');
             $table->timestamps(); // Kolom untuk waktu pembuatan dan pembaruan
         });
     }

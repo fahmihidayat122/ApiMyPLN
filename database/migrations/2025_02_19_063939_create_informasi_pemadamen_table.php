@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('informasi_pemadamen', function (Blueprint $table) {
             $table->id();
-            $table->date('hari_tanggal'); 
-            $table->time('waktu'); 
-            $table->string('wilayah_pemeliharaan'); 
-            $table->string('pekerjaan'); 
+            $table->foreignId('admin_id')->constrained('users')->onDelete('cascade'); // Relasi ke tabel users (admin)
+            $table->date('hari_tanggal');
+            $table->time('waktu');
+            $table->string('wilayah_pemeliharaan');
+            $table->string('pekerjaan');
             $table->timestamps(); // Kolom untuk waktu pembuatan dan pembaruan
         });
     }

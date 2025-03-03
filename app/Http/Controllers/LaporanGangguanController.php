@@ -4,95 +4,102 @@ namespace App\Http\Controllers;
 
 use App\Models\LaporanGangguan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LaporanGangguanController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan semua laporan gangguan (hanya untuk admin).
      */
     public function index()
     {
-        $laporanGangguan = LaporanGangguan::all();
-        return response()->json($laporanGangguan);
+        try {
+            $laporanGangguan = LaporanGangguan::all();
+
+            if ($laporanGangguan->isEmpty()) {
+                return response()->json([
+                    'message' => 'Belum ada laporan gangguan yang tersedia',
+                ], 404);
+            }
+
+            return response()->json([
+                'message' => 'Semua laporan gangguan berhasil diambil',
+                'data' => $laporanGangguan,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat mengambil laporan gangguan',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * User membuat laporan gangguan.
      */
     public function store(Request $request)
     {
         try {
-            $data = LaporanGangguan::create($data = $request->all());
-            return response()->json([
-                "success" => true,
-                "massage" => "Laporan Gangguan Berhasil Di tambahkan",
-                "data" => $data
+            // Validasi input
+            $request->validate([
+                'no_hp' => 'required|string|max:15',
+                'no_id' => 'required|string|max:50',
+                'lokasi_gangguan' => 'required|string|max:255',
+                'deskripsi_laporan' => 'required|string',
             ]);
+
+            // Buat laporan gangguan
+            $laporanGangguan = LaporanGangguan::create($request->all());
+
+            return response()->json([
+                'message' => 'Laporan gangguan berhasil ditambahkan',
+                'data' => $laporanGangguan,
+            ], 201);
         } catch (\Exception $e) {
             return response()->json([
-                "success" => false,
-                "massage" => $e->getMessage(),
-                "data" => $request->all()
-            ]);
+                'message' => 'Terjadi kesalahan saat menyimpan laporan gangguan',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan detail laporan gangguan berdasarkan ID.
      */
     public function show($id)
     {
         try {
-            $data = LaporanGangguan::find($id);
-            if (!$data) {
-                return response()->json([
-                    "success" => false,
-                    "massage" => "id " . $id . " Tidak Ditemukan",
-                ]);
-            }
+            $laporanGangguan = LaporanGangguan::findOrFail($id);
+
             return response()->json([
-                "success" => true,
-                "massage" => "Laporan Gangguan Berhasil Di tampilkan",
-                "data" => $data
+                'message' => 'Laporan gangguan berhasil ditampilkan',
+                'data' => $laporanGangguan,
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                "success" => false,
-                "massage" => "Laporan Gangguan Tidak Ditemukan" . $e->getMessage(),
-                "data" => $id
-            ]);
+                'message' => 'Laporan gangguan tidak ditemukan',
+                'error' => $e->getMessage(),
+            ], 404);
         }
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Admin menghapus laporan gangguan.
      */
-    public function edit(LaporanGangguan $laporanGangguan)
+    public function destroy($id)
     {
-        //
-    }
+        try {
+            $laporanGangguan = LaporanGangguan::findOrFail($id);
+            $laporanGangguan->delete();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, LaporanGangguan $laporanGangguan)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(LaporanGangguan $laporanGangguan)
-    {
-        //
+            return response()->json([
+                'message' => 'Laporan gangguan berhasil dihapus',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menghapus laporan gangguan',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }

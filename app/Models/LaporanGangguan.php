@@ -15,4 +15,9 @@ class LaporanGangguan extends Model
         'lokasi_gangguan',
         'deskripsi_laporan',
     ];
+
+    public function informasiGangguan()
+    {
+        return $this->hasOne(InformasiGangguan::class, 'laporan_gangguan_id');
+    }
 }

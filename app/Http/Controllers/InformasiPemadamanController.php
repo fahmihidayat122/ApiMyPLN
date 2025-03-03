@@ -3,96 +3,154 @@
 namespace App\Http\Controllers;
 
 use App\Models\InformasiPemadaman;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class InformasiPemadamanController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar informasi pemadaman.
      */
     public function index()
     {
-        $informasiPemadaman = InformasiPemadaman::all();
-        return response()->json($informasiPemadaman);
+        try {
+            $informasiPemadaman = InformasiPemadaman::with('admin')->get();
+
+            if ($informasiPemadaman->isEmpty()) {
+                return response()->json([
+                    'message' => 'Belum ada informasi pemadaman yang tersedia',
+                ], 404);
+            }
+
+            return response()->json([
+                'message' => 'Semua informasi pemadaman berhasil diambil',
+                'data' => $informasiPemadaman,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat mengambil data informasi pemadaman',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Menyimpan informasi pemadaman baru.
      */
     public function store(Request $request)
     {
         try {
-            $data = InformasiPemadaman::create($data = $request->all());
-            return response()->json([
-                "success" => true,
-                "massage" => "Informasi Pemadaman Berhasil Di tambahkan",
-                "data" => $data
+            // Ambil user yang sedang login (harus admin)
+            $admin = Auth::user();
+            if (!$admin) {
+                return response()->json([
+                    'message' => 'Unauthorized, admin tidak ditemukan',
+                ], 403);
+            }
+
+            // Validasi input
+            $request->validate([
+                'hari_tanggal' => 'required|date_format:Y-m-d',
+                'waktu' => 'required|date_format:H:i',
+                'wilayah_pemeliharaan' => 'required|string|max:255',
+                'pekerjaan' => 'required|string|max:500',
             ]);
+
+            // Simpan data
+            $informasiPemadaman = InformasiPemadaman::create([
+                'admin_id' => $admin->id, // Ambil ID dari user yang login
+                'hari_tanggal' => $request->hari_tanggal,
+                'waktu' => $request->waktu,
+                'wilayah_pemeliharaan' => $request->wilayah_pemeliharaan,
+                'pekerjaan' => $request->pekerjaan,
+            ]);
+
+            return response()->json([
+                'message' => 'Informasi pemadaman berhasil dibuat',
+                'data' => $informasiPemadaman,
+            ], 201);
         } catch (\Exception $e) {
             return response()->json([
-                "success" => false,
-                "massage" => $e->getMessage(),
-                "data" => $request->all()
-            ]);
+                'message' => 'Terjadi kesalahan saat menyimpan informasi pemadaman',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan detail informasi pemadaman berdasarkan ID.
      */
     public function show($id)
     {
         try {
-            $data = InformasiPemadaman::find($id);
-            if (!$data) {
-                return response()->json([
-                    "success" => false,
-                    "massage" => "id " . $id . " Tidak Ditemukan",
-                ]);
-            }
+            // Gunakan findOrFail untuk otomatis return 404 jika tidak ditemukan
+            $informasiPemadaman = InformasiPemadaman::with('admin')->findOrFail($id);
+
             return response()->json([
-                "success" => true,
-                "massage" => "Informasi Pemadaman Berhasil Di tampilkan",
-                "data" => $data
+                'message' => 'Informasi pemadaman berhasil diambil',
+                'data' => $informasiPemadaman,
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                "success" => false,
-                "massage" => "Informasi Pemadaman Tidak Ditemukan" . $e->getMessage(),
-                "data" => $id
-            ]);
+                'message' => 'Terjadi kesalahan saat mengambil informasi pemadaman',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(InformasiPemadaman $informasiPemadaman)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Mengupdate informasi pemadaman berdasarkan ID.
      */
     public function update(Request $request, InformasiPemadaman $informasiPemadaman)
     {
-        //
+        try {
+            // Pastikan user adalah admin
+            $admin = Auth::user();
+            if (!$admin) {
+                return response()->json([
+                    'message' => 'Unauthorized, admin tidak ditemukan',
+                ], 403);
+            }
+
+            // Validasi input
+            $request->validate([
+                'hari_tanggal' => 'sometimes|date_format:Y-m-d',
+                'waktu' => 'sometimes|date_format:H:i',
+                'wilayah_pemeliharaan' => 'sometimes|string|max:255',
+                'pekerjaan' => 'sometimes|string|max:500',
+            ]);
+
+            // Update data
+            $informasiPemadaman->update($request->only(['hari_tanggal', 'waktu', 'wilayah_pemeliharaan', 'pekerjaan']));
+
+            return response()->json([
+                'message' => 'Informasi pemadaman berhasil diperbarui',
+                'data' => $informasiPemadaman,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat memperbarui informasi pemadaman',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus informasi pemadaman.
      */
     public function destroy(InformasiPemadaman $informasiPemadaman)
     {
-        //
+        try {
+            $informasiPemadaman->delete();
+
+            return response()->json([
+                'message' => 'Informasi pemadaman berhasil dihapus',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menghapus informasi pemadaman',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
