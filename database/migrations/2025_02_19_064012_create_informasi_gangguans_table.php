@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('informasi_gangguans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('laporan_gangguan_id') // Pastikan referensi tabel disebutkan
-                ->onDelete('cascade');
+            // $table->foreignId('laporan_gangguan_id')
+            //     ->constrained('laporan_gangguans')
+            //     ->onDelete('cascade'); // Foreign key yang benar
             $table->date('hari_tanggal');
             $table->time('waktu');
             $table->string('wilayah_pemeliharaan');
             $table->string('informasi_gangguan');
             $table->string('dampak_gangguan');
-            $table->timestamps(); // Kolom untuk waktu pembuatan dan pembaruan
+            $table->timestamps();
         });
     }
 

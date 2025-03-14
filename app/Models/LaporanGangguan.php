@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class LaporanGangguan extends Model
 {
-    /** @use HasFactory<\Database\Factories\LaporanGangguanFactory> */
     use HasFactory;
+
+    protected $table = 'laporan_gangguans'; // Nama tabel sesuai migrasi
+
     protected $fillable = [
         'no_hp',
         'no_id',
@@ -16,6 +18,7 @@ class LaporanGangguan extends Model
         'deskripsi_laporan',
     ];
 
+    // Relasi ke InformasiGangguan
     public function informasiGangguan()
     {
         return $this->hasOne(InformasiGangguan::class, 'laporan_gangguan_id');

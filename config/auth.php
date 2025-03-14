@@ -40,7 +40,25 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'admin' => [ // Guard untuk Admin
+            'driver' => 'session',
+            'provider' => 'admins', // Pastikan ini sesuai dengan 'providers'
+        ],
     ],
+
+    'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
+
+        'admins' => [ // Provider untuk Admin
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class, // Pastikan model ini benar
+        ],
+    ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -65,6 +83,10 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
+        'admins' => [ // ✅ Tambahkan provider untuk admin
+            'driver' => 'eloquent',
+            'model' => App\Models\admin::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

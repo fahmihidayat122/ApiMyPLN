@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class InformasiPemadaman extends Model
 {
-    /** @use HasFactory<\Database\Factories\InformasiPemadamanFactory> */
     use HasFactory;
+
+    protected $table = 'informasi_pemadamans'; // Pastikan sesuai nama tabel di database
+
     protected $fillable = [
         'admin_id',
         'hari_tanggal',
-        'waktu',
-        'wilayah_pemeliharaan',
+        'waktu_mulai',
+        'waktu_selesai',
+        'lokasi_pemeliharaan',
         'pekerjaan',
     ];
 

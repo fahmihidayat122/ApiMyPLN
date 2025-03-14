@@ -30,8 +30,10 @@ Route::prefix('admin')->group(function () {
 
         // Informasi Pemadaman
         Route::get('informasi-pemadaman', [InformasiPemadamanController::class, 'index']);
+        Route::get('informasi-pemadaman/create', [InformasiPemadamanController::class, 'create']);
         Route::post('informasi-pemadaman', [InformasiPemadamanController::class, 'store']);
         Route::get('informasi-pemadaman/{id}', [InformasiPemadamanController::class, 'show']);
+
 
         // Informasi Gangguan (Admin hanya bisa mengelola)
         Route::apiResource('informasi-gangguan', InformasiGangguanController::class)->except(['update', 'destroy']);
