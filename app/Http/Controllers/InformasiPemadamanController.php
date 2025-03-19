@@ -17,6 +17,17 @@ class InformasiPemadamanController extends Controller
         return view('admin.informasi-pemadaman.index', compact('pemadamans'));
     }
 
+    public function getInformasiPemadaman()
+    {
+        $data = InformasiPemadaman::orderBy('tanggal', 'desc')->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Informasi Pemadaman',
+            'data' => $data
+        ], 200);
+    }
+
+
 
     public function create()
     {
