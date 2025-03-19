@@ -53,10 +53,11 @@ Route::get('/user', function (Request $request) {
 Route::prefix('user')->group(function () {
     Route::post('/register', [UserAuthController::class, 'register']);
     Route::post('/login', [UserAuthController::class, 'login']);
+    Route::get('informasi-pemadaman', [InformasiPemadamanController::class, 'getInformasiPemadaman']);
 
     Route::middleware(['auth:sanctum', 'user.type:user'])->group(function () {
         Route::post('logout', [UserAuthController::class, 'logout']);
-        Route::get('informasi-pemadaman', [InformasiPemadamanController::class, 'getInformasiPemadaman']);
+
         // Route::get('profile', [UserController::class, 'profile']);
         // Route::put('profile', [UserController::class, 'updateProfile']);
 

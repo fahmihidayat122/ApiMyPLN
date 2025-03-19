@@ -19,13 +19,14 @@ class InformasiPemadamanController extends Controller
 
     public function getInformasiPemadaman()
     {
-        $data = InformasiPemadaman::orderBy('tanggal', 'desc')->get();
+        $data = InformasiPemadaman::orderBy('hari_tanggal', 'desc')->get(); // Gunakan 'hari_tanggal'
         return response()->json([
             'success' => true,
             'message' => 'Data Informasi Pemadaman',
             'data' => $data
         ], 200);
     }
+
 
 
 
