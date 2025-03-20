@@ -100,7 +100,24 @@ class InformasiGangguanController extends Controller
             ->with('success', 'Informasi gangguan berhasil dihapus.');
     }
 
-
+    // ✅ Ambil semua data gangguan
+    public function getByInformasiGangguan()
+    {
+        try {
+            $data = InformasiGangguan::all();
+            return response()->json([
+                'success' => true,
+                'message' => 'Daftar Informasi Gangguan',
+                'data' => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengambil data',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 
 
 

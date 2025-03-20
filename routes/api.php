@@ -55,6 +55,12 @@ Route::prefix('user')->group(function () {
     Route::post('/login', [UserAuthController::class, 'login']);
     Route::get('informasi-pemadaman', [InformasiPemadamanController::class, 'getInformasiPemadaman']);
 
+    Route::get('informasi-gangguan', [InformasiGangguanController::class, 'getByInformasiGangguan']);
+
+    Route::get('laporan-gangguan', [LaporanGangguanController::class, 'indexLaporan']); // Ambil semua laporan
+    Route::post('laporan-gangguan', [LaporanGangguanController::class, 'store']); // Kirim laporan baru
+    Route::get('laporan-gangguan/{id}', [LaporanGangguanController::class, 'show']); // Ambil detail laporan
+
     Route::middleware(['auth:sanctum', 'user.type:user'])->group(function () {
         Route::post('logout', [UserAuthController::class, 'logout']);
 

@@ -27,8 +27,8 @@
                                 <td>{{ $admin->name }}</td>
                                 <td>{{ $admin->email }}</td>
                                 <td>
-                                    <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                    <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                    {{-- <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                    <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> --}}
                                     <form action="#" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
@@ -66,8 +66,8 @@
                                 <td>{{ $user->nama_lengkap }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
-                                    <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                    <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                    {{-- <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                    <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> --}}
                                     <form action="#" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
