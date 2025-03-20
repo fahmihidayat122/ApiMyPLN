@@ -33,34 +33,30 @@ class UserAuthController extends Controller
     public function register(Request $request)
     {
         $validatedData = $request->validate([
-            'nama_lengkap' => 'required',
+            'nama_lengkap' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
-            'no_hp' => 'required|numeric',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'no_hp' => 'required|string|max:15',
         ]);
-
-        // Cek apakah avatar diunggah
-        if ($request->hasFile('avatar')) {
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-        } else {
-            $avatarPath = null;
-        }
 
         $user = User::create([
             'nama_lengkap' => $validatedData['nama_lengkap'],
             'email' => $validatedData['email'],
             'password' => bcrypt($validatedData['password']),
             'no_hp' => $validatedData['no_hp'],
-            'avatar' => $avatarPath, // Simpan path avatar jika ada
         ]);
+
+        // 🔥 Generate token untuk user yang baru terdaftar
+        $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
             'success' => true,
             'message' => 'Registrasi berhasil',
             'data' => $user,
+            'token' => $token // ✅ Pastikan token dikirim dalam respons
         ], 201);
     }
+
 
     public function logout(Request $request)
     {
