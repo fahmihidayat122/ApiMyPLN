@@ -30,6 +30,14 @@ class AdminController extends Controller
         return view('admin.informasi-gangguan.index', compact('gangguans'));
     }
 
+    public function destroy($id)
+    {
+        $admin = Admin::findOrFail($id);
+        $admin->delete();
+
+        return redirect()->route('admin.pengguna.index')->with('success', 'Data Admin berhasil dihapus.');
+    }
+
 
 
 

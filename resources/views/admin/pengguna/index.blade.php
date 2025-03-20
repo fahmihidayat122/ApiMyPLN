@@ -29,10 +29,12 @@
                                 <td>
                                     {{-- <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                     <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> --}}
-                                    <form action="#" method="POST" class="d-inline">
+                                    <form action="{{ route('admin.pengguna.destroy', $admin->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
@@ -68,10 +70,12 @@
                                 <td>
                                     {{-- <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                     <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> --}}
-                                    <form action="#" method="POST" class="d-inline">
+                                    <form action="{{ route('admin.pengguna.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
                                     </form>
                                 </td>
                             </tr>

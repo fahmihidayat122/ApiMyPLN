@@ -22,7 +22,6 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logo
 // Middleware untuk admin
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-
     // Informasi Pemadaman
     Route::resource('informasi-pemadaman', InformasiPemadamanController::class);
 

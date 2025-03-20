@@ -21,6 +21,15 @@ class UserController extends Controller
         return view('admin.pengguna.index', compact('users', 'admins'));
     }
 
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('admin.pengguna.index')->with('success', 'Data berhasil dihapus!');
+    }
+
+
 
     // public function register(Request $request)
     // {

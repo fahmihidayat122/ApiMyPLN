@@ -54,4 +54,19 @@ class AdminAuthController extends Controller
 
         return redirect()->route('admin.login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
+
+    // public function getAdminById($id)
+    // {
+    //     $admin = Admin::findOrFail($id);
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Data bidan berhasil diambil',
+    //         'data' => [
+    //             'id' => $admin->id,
+    //             'nama_lengkap' => $admin->name,
+    //             'email' => $admin->email,
+    //         ]
+    //     ], 200);
+    // }
 }

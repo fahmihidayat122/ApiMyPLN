@@ -71,4 +71,21 @@ class UserAuthController extends Controller
             return response()->json(['error' => 'Terjadi kesalahan saat logout', 'message' => $e->getMessage()], 500);
         }
     }
+
+    public function getUserById($id)
+    {
+        $user = User::findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data bidan berhasil diambil',
+            'data' => [
+                'id' => $user->id,
+                'email' => $user->email,
+                // 'password' => $user->password,
+                'nama_lengkap' => $user->nama_lengkap,
+                'no_hp' => $user->no_hp,
+            ]
+        ], 200);
+    }
 }
