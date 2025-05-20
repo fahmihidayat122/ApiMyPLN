@@ -53,6 +53,8 @@ Route::get('/user', function (Request $request) {
 Route::prefix('user')->group(function () {
     Route::post('/register', [UserAuthController::class, 'register']);
     Route::post('/login', [UserAuthController::class, 'login']);
+    Route::post('/forgot-password', [UserAuthController::class, 'resetPassword']);
+
     Route::get('informasi-pemadaman', [InformasiPemadamanController::class, 'getInformasiPemadaman']);
 
     Route::get('informasi-gangguan', [InformasiGangguanController::class, 'getByInformasiGangguan']);
