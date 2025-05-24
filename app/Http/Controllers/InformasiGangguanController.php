@@ -37,6 +37,7 @@ class InformasiGangguanController extends Controller
             'wilayah_pemeliharaan' => 'required|string',
             'informasi_gangguan' => 'required|string',
             'dampak_gangguan' => 'required|string',
+            'status' => 'required|in:Belum Di Perbaiki,Sedang Di Perbaiki,Selesai Di Perbaiki',
         ]);
 
         InformasiGangguan::create($request->all());
@@ -61,6 +62,7 @@ class InformasiGangguanController extends Controller
             'wilayah_pemeliharaan' => 'required|string|max:255',
             'informasi_gangguan' => 'required|string',
             'dampak_gangguan' => 'required|string',
+            'status' => 'required|in:Belum Di Perbaiki,Sedang Di Perbaiki,Selesai Di Perbaiki',
         ]);
 
         // Temukan data berdasarkan ID
@@ -73,6 +75,7 @@ class InformasiGangguanController extends Controller
             'wilayah_pemeliharaan' => $request->wilayah_pemeliharaan,
             'informasi_gangguan' => $request->informasi_gangguan,
             'dampak_gangguan' => $request->dampak_gangguan,
+            'status' => $request->status,
         ]);
 
         return redirect()->route('admin.informasi-gangguan.index')->with('success', 'Informasi gangguan berhasil diperbarui!');

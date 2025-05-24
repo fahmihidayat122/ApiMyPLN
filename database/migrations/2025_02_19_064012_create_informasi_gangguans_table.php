@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('wilayah_pemeliharaan');
             $table->string('informasi_gangguan');
             $table->string('dampak_gangguan');
+            $table->enum('status', ['Belum Di Perbaiki', 'Sedang Di Perbaiki', 'Selesai Di Perbaiki'])->default('Belum Di Perbaiki');
             $table->timestamps();
         });
     }

@@ -16,6 +16,7 @@ class InformasiGangguan extends Model
         'wilayah_pemeliharaan',
         'informasi_gangguan',
         'dampak_gangguan',
+        'status',
     ];
 
     // public function laporanGangguan()

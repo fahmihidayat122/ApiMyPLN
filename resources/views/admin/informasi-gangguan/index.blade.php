@@ -14,8 +14,8 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
                         <tr>
                             <th>No</th>
                             <th>Hari/Tanggal</th>
@@ -23,6 +23,7 @@
                             <th>Wilayah Pemeliharaan</th>
                             <th>Informasi Gangguan</th>
                             <th>Dampak Gangguan</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -35,6 +36,17 @@
                                 <td>{{ $gangguan->wilayah_pemeliharaan }}</td>
                                 <td>{{ $gangguan->informasi_gangguan }}</td>
                                 <td>{{ $gangguan->dampak_gangguan }}</td>
+                                <td>
+                                    @if($gangguan->status === 'Belum Di Perbaiki')
+                                        <span class="badge bg-danger">{{ $gangguan->status }}</span>
+                                    @elseif($gangguan->status === 'Sedang Di Perbaiki')
+                                        <span class="badge bg-warning text-dark">{{ $gangguan->status }}</span>
+                                    @elseif($gangguan->status === 'Selesai Di Perbaiki')
+                                        <span class="badge bg-success">{{ $gangguan->status }}</span>
+                                    @else
+                                        <span class="badge bg-secondary">Tidak Diketahui</span>
+                                    @endif
+                                </td>
                                 <td>
                                     <!-- Tombol Detail -->
                                     <a href="{{ route('admin.informasi-gangguan.show', $gangguan->id) }}" 
@@ -61,6 +73,12 @@
                                 </td>
                             </tr>
                         @endforeach
+
+                        @if($gangguans->isEmpty())
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">Belum ada informasi gangguan.</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div> <!-- /table-responsive -->
