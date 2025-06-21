@@ -91,37 +91,11 @@ class UserAuthController extends Controller
             ]
         ], 200);
     }
-    // public function resetPassword(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'email' => 'required|email|exists:users,email',
-    //         'password' => 'required|min:6|confirmed', // pastikan ada "password_confirmation"
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return response()->json([
-    //             'status' => 'validation_error',
-    //             'errors' => $validator->errors()
-    //         ], 422);
-    //     }
-
-    //     $user = User::where('email', $request->email)->first();
-
-    //     $user->password = Hash::make($request->password);
-    //     $user->save();
-
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'message' => 'Password berhasil direset.'
-    //     ]);
-    // }
-
     public function resetPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
-            'otp' => 'required',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:6|confirmed', // pastikan ada "password_confirmation"
         ]);
 
         if ($validator->fails()) {
@@ -131,20 +105,10 @@ class UserAuthController extends Controller
             ], 422);
         }
 
-        $cachedOtp = Cache::get('reset_otp_' . $request->email);
-        if (!$cachedOtp || $request->otp != $cachedOtp) {
-            return response()->json([
-                'status' => 'otp_invalid',
-                'message' => 'OTP tidak valid atau telah kedaluwarsa.'
-            ], 403);
-        }
-
         $user = User::where('email', $request->email)->first();
+
         $user->password = Hash::make($request->password);
         $user->save();
-
-        // Hapus OTP dari cache setelah berhasil
-        Cache::forget('reset_otp_' . $request->email);
 
         return response()->json([
             'status' => 'success',
@@ -152,25 +116,61 @@ class UserAuthController extends Controller
         ]);
     }
 
+    // public function resetPassword(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'email' => 'required|email|exists:users,email',
+    //         'otp' => 'required',
+    //         'password' => 'required|min:6|confirmed',
+    //     ]);
 
-    public function sendResetOtp(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email|exists:users,email',
-        ]);
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'status' => 'validation_error',
+    //             'errors' => $validator->errors()
+    //         ], 422);
+    //     }
 
-        $otp = rand(100000, 999999); // atau pakai Str::random(6) jika mau alfanumerik
-        Cache::put('reset_otp_' . $request->email, $otp, now()->addMinutes(10)); // expire 10 menit
+    //     $cachedOtp = Cache::get('reset_otp_' . $request->email);
+    //     if (!$cachedOtp || $request->otp != $cachedOtp) {
+    //         return response()->json([
+    //             'status' => 'otp_invalid',
+    //             'message' => 'OTP tidak valid atau telah kedaluwarsa.'
+    //         ], 403);
+    //     }
 
-        // Kirim email OTP (gunakan Mail::to + view/email)
-        Mail::raw("Kode OTP untuk reset password Anda: $otp", function ($message) use ($request) {
-            $message->to($request->email)
-                ->subject('Kode OTP Reset Password');
-        });
+    //     $user = User::where('email', $request->email)->first();
+    //     $user->password = Hash::make($request->password);
+    //     $user->save();
 
-        return response()->json([
-            'status' => 'otp_sent',
-            'message' => 'OTP telah dikirim ke email.'
-        ]);
-    }
+    //     // Hapus OTP dari cache setelah berhasil
+    //     Cache::forget('reset_otp_' . $request->email);
+
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'message' => 'Password berhasil direset.'
+    //     ]);
+    // }
+
+
+    // public function sendResetOtp(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => 'required|email|exists:users,email',
+    //     ]);
+
+    //     $otp = rand(100000, 999999); // atau pakai Str::random(6) jika mau alfanumerik
+    //     Cache::put('reset_otp_' . $request->email, $otp, now()->addMinutes(10)); // expire 10 menit
+
+    //     // Kirim email OTP (gunakan Mail::to + view/email)
+    //     Mail::raw("Kode OTP untuk reset password Anda: $otp", function ($message) use ($request) {
+    //         $message->to($request->email)
+    //             ->subject('Kode OTP Reset Password');
+    //     });
+
+    //     return response()->json([
+    //         'status' => 'otp_sent',
+    //         'message' => 'OTP telah dikirim ke email.'
+    //     ]);
+    // }
 }
