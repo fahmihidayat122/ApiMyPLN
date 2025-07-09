@@ -1,17 +1,18 @@
 @extends('layouts.admin')
 
-@section('content')
-<div class="container mt-4">
-    <h1 class="mb-4">Detail Informasi Pemadaman</h1>
+@section('title', 'Detail Informasi Pemadaman')
 
-    <div class="card">
+@section('content')
+<div class="container">
+
+    <div class="card shadow-sm">
         <div class="card-header bg-info text-white">
-            <h5 class="mb-0">Detail Pemadaman</h5>
+            <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i> Detail Pemadaman</h5>
         </div>
         <div class="card-body">
-            <table class="table">
+            <table class="table table-bordered">
                 <tr>
-                    <th>Hari/Tanggal</th>
+                    <th width="30%">Hari / Tanggal</th>
                     <td>{{ \Carbon\Carbon::parse($pemadaman->hari_tanggal)->translatedFormat('l, d F Y') }}</td>
                 </tr>
                 <tr>
@@ -31,9 +32,12 @@
                     <td>{{ $pemadaman->pekerjaan }}</td>
                 </tr>
             </table>
-            <a href="{{ route('admin.informasi-pemadaman.index') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </a>
+
+            <div class="mt-4">
+                <a href="{{ route('admin.informasi-pemadaman.index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Kembali
+                </a>
+            </div>
         </div>
     </div>
 </div>

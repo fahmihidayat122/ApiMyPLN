@@ -20,7 +20,7 @@ class AdminAuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('admin')->attempt($credentials)) {
-            return redirect()->route('admin.dashboard'); // Redirect ke dashboard admin
+            return redirect()->route('admin.dashboard');
         }
 
         return back()->withErrors(['email' => 'Email atau password salah.']);
@@ -34,10 +34,9 @@ class AdminAuthController extends Controller
 
     public function showRegisterForm()
     {
-        return view('auth.admin-register'); // Pastikan file ini ada
+        return view('auth.admin-register');
     }
 
-    // Proses registrasi
     public function register(Request $request)
     {
         $request->validate([
@@ -54,19 +53,4 @@ class AdminAuthController extends Controller
 
         return redirect()->route('admin.login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
-
-    // public function getAdminById($id)
-    // {
-    //     $admin = Admin::findOrFail($id);
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'message' => 'Data bidan berhasil diambil',
-    //         'data' => [
-    //             'id' => $admin->id,
-    //             'nama_lengkap' => $admin->name,
-    //             'email' => $admin->email,
-    //         ]
-    //     ], 200);
-    // }
 }

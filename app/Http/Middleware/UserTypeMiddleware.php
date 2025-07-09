@@ -9,12 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserTypeMiddleware
 {
-    /**
-     * Handle an incoming request.
-     */
     public function handle(Request $request, Closure $next, string $type): Response
     {
-        $guard = $type === 'admin' ? 'admin' : 'web'; // Gunakan guard sesuai tipe
+        $guard = $type === 'admin' ? 'admin' : 'web';
         $user = Auth::guard($guard)->user();
 
         if (!$user) {

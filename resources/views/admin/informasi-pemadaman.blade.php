@@ -4,12 +4,10 @@
 <div class="container mt-4">
     <h1 class="mb-4">Informasi Pemadaman</h1>
 
-    <!-- Tombol Tambah Data -->
     <a href="" class="btn btn-primary mb-3">
         <i class="fas fa-plus"></i> Tambah Informasi Pemadaman
     </a>
 
-    <!-- Tabel Data Informasi Pemadaman -->
     <div class="card">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0">Daftar Pemadaman</h5>

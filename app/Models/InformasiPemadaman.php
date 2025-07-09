@@ -9,7 +9,7 @@ class InformasiPemadaman extends Model
 {
     use HasFactory;
 
-    protected $table = 'informasi_pemadamans'; // Pastikan sesuai nama tabel di database
+    protected $table = 'informasi_pemadamans';
 
     protected $fillable = [
         'admin_id',

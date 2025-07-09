@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             // $table->foreignId('laporan_gangguan_id')
             //     ->constrained('laporan_gangguans')
-            //     ->onDelete('cascade'); // Foreign key yang benar
+            //     ->onDelete('cascade');
             $table->date('hari_tanggal');
             $table->time('waktu');
             $table->string('wilayah_pemeliharaan');

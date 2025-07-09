@@ -1,17 +1,19 @@
 @extends('layouts.admin')
 
-@section('content')
-<div class="container mt-4">
-    <h1 class="mb-4">Detail Informasi Gangguan</h1>
+@section('title', 'Detail Informasi Gangguan')
 
-    <div class="card">
+@section('content')
+<div class="container">
+
+    <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Data Informasi</h5>
+            <h5 class="mb-0"><i class="fas fa-info-circle"></i> Data Informasi Gangguan</h5>
         </div>
+
         <div class="card-body">
-            <table class="table table-bordered">
+            <table class="table table-bordered table-hover">
                 <tr>
-                    <th style="width: 30%;">Hari/Tanggal</th>
+                    <th style="width: 30%;">Hari / Tanggal</th>
                     <td>{{ \Carbon\Carbon::parse($gangguan->hari_tanggal)->translatedFormat('l, d F Y') }}</td>
                 </tr>
                 <tr>
@@ -33,13 +35,19 @@
                 <tr>
                     <th>Status</th>
                     <td>
-                        @if($gangguan->status == 'Belum Di Perbaiki')
-                            <span class="badge bg-danger">{{ $gangguan->status }}</span>
-                        @elseif($gangguan->status == 'Sedang Di Perbaiki')
-                            <span class="badge bg-warning text-dark">{{ $gangguan->status }}</span>
-                        @else
-                            <span class="badge bg-success">{{ $gangguan->status }}</span>
-                        @endif
+                        @switch($gangguan->status)
+                            @case('Belum Di Perbaiki')
+                                <span class="badge bg-danger">{{ $gangguan->status }}</span>
+                                @break
+                            @case('Sedang Di Perbaiki')
+                                <span class="badge bg-warning text-dark">{{ $gangguan->status }}</span>
+                                @break
+                            @case('Selesai Di Perbaiki')
+                                <span class="badge bg-success">{{ $gangguan->status }}</span>
+                                @break
+                            @default
+                                <span class="badge bg-secondary">Tidak Diketahui</span>
+                        @endswitch
                     </td>
                 </tr>
             </table>

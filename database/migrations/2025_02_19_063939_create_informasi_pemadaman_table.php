@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('informasi_pemadamans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('admin_id'); // Harus unsignedBigInteger agar cocok
+            $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->date('hari_tanggal');
             $table->time('waktu_mulai');

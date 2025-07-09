@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('no_hp');
             $table->string('no_id');
-            $table->string('lokasi_gangguan'); // Konsisten dengan informasi gangguan
+            $table->string('lokasi_gangguan');
             $table->text('deskripsi_laporan');
             $table->timestamps();
         });

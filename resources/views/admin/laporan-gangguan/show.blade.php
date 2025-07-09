@@ -1,17 +1,18 @@
 @extends('layouts.admin')
 
-@section('content')
-<div class="container mt-4">
-    <h1 class="mb-4">Detail Laporan Gangguan</h1>
+@section('title', 'Detail Laporan Gangguan')
 
-    <div class="card">
+@section('content')
+<div class="container">
+
+    <div class="card shadow-sm">
         <div class="card-header bg-info text-white">
-            <h5 class="mb-0">Detail Gangguan</h5>
+            <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i> Detail Gangguan</h5>
         </div>
         <div class="card-body">
-            <table class="table">
+            <table class="table table-bordered table-striped">
                 <tr>
-                    <th>No Handphone</th>
+                    <th style="width: 30%">No Handphone</th>
                     <td>{{ $laporan->no_hp }}</td>
                 </tr>
                 <tr>
@@ -31,9 +32,12 @@
                     <td>{{ \Carbon\Carbon::parse($laporan->created_at)->translatedFormat('l, d F Y H:i') }}</td>
                 </tr>
             </table>
-            <a href="{{ route('admin.laporan-gangguan.index') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </a>
+
+            <div class="mt-3">
+                <a href="{{ route('admin.laporan-gangguan.index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </div>
         </div>
     </div>
 </div>

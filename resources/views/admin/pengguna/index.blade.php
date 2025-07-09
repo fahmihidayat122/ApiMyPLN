@@ -1,90 +1,94 @@
 @extends('layouts.admin')
 
+@section('title', 'Daftar Pengguna')
+
 @section('content')
-<div class="container mt-4">
-    <h1 class="mb-4">Daftar Pengguna</h1>
+<div class="container">
 
     <!-- Tabel Admin -->
-    <div class="card mb-4">
+    <div class="card mb-5 shadow-sm">
         <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Daftar Admin</h5>
+            <h5 class="mb-0"><i class="fas fa-user-shield me-2"></i> Daftar Admin</h5>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($admins as $admin)
+            @if($admins->isEmpty())
+                <div class="text-center text-muted">Belum ada admin terdaftar.</div>
+            @else
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead class="table-dark">
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $admin->name }}</td>
-                                <td>{{ $admin->email }}</td>
-                                <td>
-                                    {{-- <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                    <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> --}}
-                                    <form action="{{ route('admin.pengguna.destroy', $admin->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
-                                </td>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th width="120px">Aksi</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach($admins as $admin)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $admin->name }}</td>
+                                    <td>{{ $admin->email }}</td>
+                                    <td>
+                                        <form action="{{ route('admin.pengguna.destroy', $admin->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus admin ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash"></i> Hapus
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
         </div>
     </div>
 
     <!-- Tabel User -->
-    <div class="card">
+    <div class="card shadow-sm">
         <div class="card-header bg-success text-white">
-            <h5 class="mb-0">Daftar User</h5>
+            <h5 class="mb-0"><i class="fas fa-users me-2"></i> Daftar User</h5>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($users as $user)
+            @if($users->isEmpty())
+                <div class="text-center text-muted">Belum ada user terdaftar.</div>
+            @else
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead class="table-dark">
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $user->nama_lengkap }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>
-                                    {{-- <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                    <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> --}}
-                                    <form action="{{ route('admin.pengguna.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
-                                </td>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th width="120px">Aksi</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach($users as $user)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $user->nama_lengkap }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>
+                                        <form action="{{ route('admin.pengguna.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash"></i> Hapus
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
         </div>
     </div>
-
 </div>
 @endsection

@@ -9,7 +9,7 @@ class LaporanGangguan extends Model
 {
     use HasFactory;
 
-    protected $table = 'laporan_gangguans'; // Nama tabel sesuai migrasi
+    protected $table = 'laporan_gangguans';
 
     protected $fillable = [
         'no_hp',
